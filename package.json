@@ -1,0 +1,38 @@
+{
+  "name": "ko-fielddefinitions",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/low-res/ko-fielddefinitions.git"
+  },
+  "license": "MIT",
+  "format": "amd",
+  "jspm": {
+    "main": "src/fieldDefinition",
+    "directories": {
+      "lib": "src",
+      "test": "tests"
+    },
+    "dependencies": {
+      "lodash": "npm:lodash@^4.17.4"
+    },
+    "devDependencies": {
+      "jasmine-core": "npm:jasmine-core@^2.7.0",
+      "karma": "npm:karma@^1.7.0",
+      "karma-chrome-launcher": "npm:karma-chrome-launcher@^2.2.0",
+      "karma-coverage": "npm:karma-coverage@^1.1.1",
+      "karma-jasmine": "npm:karma-jasmine@^1.1.0",
+      "karma-systemjs": "npm:karma-systemjs@^0.16.0"
+    }
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "jasmine-core": "^2.7.0",
+    "jspm": "^0.16.53",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-systemjs": "^0.16.0"
+  }
+}
