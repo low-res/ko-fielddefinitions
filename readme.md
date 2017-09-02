@@ -27,3 +27,5 @@ output_format:  how to display the fieldvalue
 value_accessor: optional name of function (or function-object) that returns the fieldvalue
 
 options:        if type is "relation" options hold the options the user can choose from
+
+validation:     function that returns true/false
