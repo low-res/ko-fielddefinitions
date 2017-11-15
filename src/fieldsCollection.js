@@ -1,44 +1,78 @@
 define([
-    "lodash"
-], function ( _ ) {
+    "lodash",
+    "src/field"
+], function ( _, Field ) {
 
-    var p = FieldDefinition.prototype;
+    var p = FieldsCollection.prototype;
 
-    function FieldDefinition( params ) {
-        this.table          = "";
+    function FieldsCollection( params ) {
+        this.domain          = "";
         this.fields         = [];
         this.collections    = [];
 
         this._processPresetValues( params );
     }
 
-    p.setTable = function (t) { this.table = t; }
+    p.setDomain = function (t) { this.domain = t; }
 
-    p.getTable = function () { return this.table; }
+    p.getDomain = function () { return this.domain; }
 
     p.getFields = function () { return this.fields; }
 
     p.addField = function ( nameOrParams, furtherParams) {
+        var newField = null;
+        var fieldParams = nameOrParams;
         if( _.isString( nameOrParams ) ) {
-            var p = _.defaults({ 'name': nameOrParams }, furtherParams );
-            this._addField( p );
-        } else {
-            this._addField(nameOrParams);
+            fieldParams = _.defaults({ 'name': nameOrParams }, furtherParams );
         }
+        newField = this._addField(fieldParams);
+        return newField;
+    }
+
+    p.getField = function ( fieldName ) {
+        var f = _.find( this.fields, ['name', fieldName] );
+        return f;
     }
 
     p.removeField = function( fieldName ) {
-        var f = _.find( this.fields, ['name', fieldName] );
+        var f = this.getField( fieldName ) ;
         if(f) _.pull(this.fields,f);
     }
 
     p.getCollectionFields = function (collectionName) {
         var self = this;
         var c = _.find( this.collections, ['name', collectionName] );
-        var f = _.map(c.fields, function(f){
-            return _.find( self.fields, ['name', f] );
-        });
+        var f = [];
+        if( c ) {
+            f = _.map(c.fields, function(f){
+                return _.find( self.fields, ['name', f] );
+            });
+        }
         return f;
+    }
+
+    p.validateCollection = function( collectionName ) {
+        var collectionFields = this.getCollectionFields( collectionName );
+        return _.reduce(collectionFields, function( validity, fieldDef) {
+            var v = fieldDef.validate();
+            // console.log( "test "+fieldDef.name, v );
+            return validity && v;
+        }, true);
+    }
+
+    p.getPostData = function ( collectionName, sourceObject ) {
+        var fields = this.getFields();
+        var data = {};
+        if( collectionName ) fields = this.getCollectionFields( collectionName );
+
+        _.forEach( fields, function( tmpFieldDef ){
+            var value = tmpFieldDef.getFieldValue();
+            if( tmpFieldDef.optionsValue && value ) {
+                value = value[tmpFieldDef.optionsValue];
+            }
+            data[tmpFieldDef.name] = value;
+        } );
+        return data;
     }
 
 
@@ -49,7 +83,7 @@ define([
     p._processPresetValues = function ( params ) {
         if( params ) {
 
-            if( params.table ) this.setTable( params.table );
+            if( params.domain ) this.setDomain( params.domain );
             if( params.fields ) {
                 for( var f in params.fields ) {
                     this._addField( params.fields[f] );
@@ -65,15 +99,18 @@ define([
     }
 
     p._addField = function( fieldParams ) {
+        var newField = null;
         if( fieldParams.name ) {
             if( !_.find( this.fields, ['name', fieldParams.name] ) ) {
-                this.fields.push( fieldParams );
+                newField = new Field( fieldParams );
+                this.fields.push( newField );
             } else {
                 console.warn( "a filed with name "+fieldParams.name+" was already defined!" );
             }
         } else {
             throw new Error("parameters for adding a field MUST at least have a value for 'name'");
         }
+        return newField;
     }
 
     p._addCollection = function ( collectionParams ) {
@@ -88,6 +125,6 @@ define([
         }
     }
 
-    return FieldDefinition;
+    return FieldsCollection;
 
 });

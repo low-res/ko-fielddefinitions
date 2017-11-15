@@ -14,7 +14,10 @@
       "test": "tests"
     },
     "dependencies": {
-      "lodash": "npm:lodash@^4.17.4"
+      "knockout": "github:knockout/knockout@^3.4.2",
+      "lodash": "npm:lodash@^4.17.4",
+      "low-res/formater": "github:low-res/formater@master",
+      "low-res/validator": "github:low-res/validator@master"
     },
     "devDependencies": {
       "jasmine-core": "npm:jasmine-core@^2.7.0",

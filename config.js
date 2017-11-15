@@ -14,12 +14,15 @@ System.config({
     "karma-coverage": "npm:karma-coverage@1.1.1",
     "karma-jasmine": "npm:karma-jasmine@1.1.0",
     "karma-systemjs": "npm:karma-systemjs@0.16.0",
+    "knockout": "github:knockout/knockout@3.4.2",
     "lodash": "npm:lodash@4.17.4",
+    "low-res/formater": "github:low-res/formater@master",
+    "low-res/validator": "github:low-res/validator@master",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.1": {
-      "buffer": "npm:buffer@5.0.7"
+      "buffer": "npm:buffer@5.0.8"
     },
     "github:jspm/nodelibs-constants@0.1.0": {
       "constants-browserify": "npm:constants-browserify@0.0.1"
@@ -89,6 +92,14 @@ System.config({
     },
     "github:jspm/nodelibs-zlib@0.1.0": {
       "browserify-zlib": "npm:browserify-zlib@0.1.4"
+    },
+    "github:low-res/formater@master": {
+      "lodash": "npm:lodash@4.17.4",
+      "moment": "npm:moment@2.19.2",
+      "numeral": "npm:numeral@2.0.6"
+    },
+    "github:low-res/validator@master": {
+      "lodash": "npm:lodash@4.17.4"
     },
     "npm:accepts@1.3.1": {
       "mime-types": "npm:mime-types@2.1.16",
@@ -309,7 +320,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:buffer@5.0.7": {
+    "npm:buffer@5.0.8": {
       "base64-js": "npm:base64-js@1.2.1",
       "ieee754": "npm:ieee754@1.1.8"
     },
@@ -1232,6 +1243,9 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:null-check@1.0.0": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:numeral@2.0.6": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:oauth-sign@0.8.2": {
