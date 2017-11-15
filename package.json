@@ -8,7 +8,7 @@
   "license": "MIT",
   "format": "amd",
   "jspm": {
-    "main": "src/fieldDefinition",
+    "main": "src/fieldsCollection",
     "directories": {
       "lib": "src",
       "test": "tests"

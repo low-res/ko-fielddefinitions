@@ -1,6 +1,6 @@
 define([
     "lodash",
-    "src/field"
+    "./field"
 ], function ( _, Field ) {
 
     var p = FieldsCollection.prototype;
