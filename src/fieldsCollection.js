@@ -44,11 +44,56 @@ define([
         var c = _.find( this.collections, ['name', collectionName] );
         var f = [];
         if( c ) {
-            f = _.map(c.fields, function(f){
-                return _.find( self.fields, ['name', f] );
-            });
+            if(c.fields) {
+                f = _.map(c.fields, function(f){
+                    return _.find( self.fields, ['name', f] );
+                });
+            }
+
+            if(c.rows) {
+                _.forEach(c.rows, function (row) {
+                   _.forEach(row, function (field) {
+                       var parts = field.split('|');
+                       var fieldname = parts[0];
+                       var width = parts.length > 1 ? parts[1] : 12;
+                       var tmpField =  _.find( self.fields, ['name', fieldname] );
+                       f.push( tmpField );
+                   }) 
+                });
+            }
         }
         return f;
+    }
+
+    p.getFormRows = function ( collectionName ) {
+        var self = this;
+        var c = _.find( this.collections, ['name', collectionName] );
+        var rows = [];
+        if(c) {
+            if(c.fields) {
+                _.forEach(c.fields, function ( fieldname ) {
+                    var f = _.find( self.fields, ['name', fieldname] );
+                    var tmpRow = [];
+                    tmpRow.push( {field:f, width:12} )
+                    rows.push( tmpRow );
+                });
+            }
+
+            if(c.rows) {
+                _.forEach(c.rows, function (row) {
+                    var tmpRow = [];
+                    _.forEach(row, function (field) {
+                        var parts = field.split('|');
+                        var fieldname = parts[0];
+                        var w = parts.length > 1 ? parseInt(parts[1]) : 12;
+                        var tmpField =  _.find( self.fields, ['name', fieldname] );
+                        tmpRow.push( {field:tmpField, width:w} );
+                    });
+                    rows.push(tmpRow);
+                });
+            }
+        }
+        return rows;
     }
 
     p.validateCollection = function( collectionName ) {
