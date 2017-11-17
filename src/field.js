@@ -27,9 +27,12 @@ define([
     p.getFieldValue = function ( sourceObject ) {
         if( sourceObject ) {
             return this._handleValueAccessor( sourceObject );
-        } else {
-            if(!this.value) throw(new Error("Field has no value property defined. If valueAccessor was meant, no sourceobject was given."));
+        } else if(this.value) {
             return ko.utils.unwrapObservable(this.value);
+        } else if( this.source ) {
+            return this._handleValueAccessor( this.source );
+        } else {
+            throw(new Error("Field has no value property defined. If valueAccessor was meant, no sourceObject is set or was given."));
         }
     }
 
@@ -61,11 +64,11 @@ define([
     }
 
 
-    p.validate = function( validation ) {
+    p.validate = function( validation, sourceObject ) {
         this.errors.removeAll();
         var v = validation || this.validation;
 
-        var res = Validator.validate( this.getFieldValue(), v );
+        var res = Validator.validate( this.getFieldValue(sourceObject), v );
         this.isValid( res );
         this.errors( Validator.getLastValidationErrors() );
         this.errors.valueHasMutated();
