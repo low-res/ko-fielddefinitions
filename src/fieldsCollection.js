@@ -1,3 +1,4 @@
+/* */
 define([
     "lodash",
     "./field"
@@ -52,13 +53,13 @@ define([
 
             if(c.rows) {
                 _.forEach(c.rows, function (row) {
-                   _.forEach(row, function (field) {
-                       var parts = field.split('|');
-                       var fieldname = parts[0];
-                       var width = parts.length > 1 ? parts[1] : 12;
-                       var tmpField =  _.find( self.fields, ['name', fieldname] );
-                       f.push( tmpField );
-                   }) 
+                    _.forEach(row, function (field) {
+                        var parts = field.split('|');
+                        var fieldname = parts[0];
+                        var width = parts.length > 1 ? parts[1] : 12;
+                        var tmpField =  _.find( self.fields, ['name', fieldname] );
+                        f.push( tmpField );
+                    })
                 });
             }
         }
@@ -85,7 +86,8 @@ define([
                     _.forEach(row, function (field) {
                         var parts = field.split('|');
                         var fieldname = parts[0];
-                        var w = parts.length > 1 ? parseInt(parts[1]) : 12;
+                        var w = parts.length > 1 ? parts[1]=="hidden" ? "hidden" : parseInt(parts[1]) : 12;
+
                         var tmpField =  _.find( self.fields, ['name', fieldname] );
                         tmpRow.push( {field:tmpField, width:w} );
                     });
