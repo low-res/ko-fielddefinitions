@@ -72,21 +72,6 @@ define([
             expect(fields.length).toEqual(2);
         });
 
-        it('should validate all fields of a given collectionname', function () {
-            var c = new FieldsCollection(collectionDefinition);
-            var res = c.validateCollection('mycollection');
-            expect(res).toBeFalsy();
-        });
-
-        it('should prepare the values of all fields als plain JS object for sending to sevrer', function () {
-            var c = new FieldsCollection(collectionDefinition);
-            var d = c.getPostData();
-            expect(d.field1).toBeDefined();
-            expect(d.field1).toEqual(1);
-            expect(d.field2).toBeDefined();
-            expect(d.field2).toEqual("xyz");
-        });
-
         it('should get fields of collection which is defined by rows', function () {
             var c = new FieldsCollection(collectionDefinition);
             var fields = c.getCollectionFields('editform');

@@ -98,30 +98,6 @@ define([
         return rows;
     }
 
-    p.validateCollection = function( collectionName ) {
-        var collectionFields = this.getCollectionFields( collectionName );
-        return _.reduce(collectionFields, function( validity, fieldDef) {
-            var v = fieldDef.validate();
-            // console.log( "test "+fieldDef.name, v );
-            return validity && v;
-        }, true);
-    }
-
-    p.getPostData = function ( collectionName, sourceObject ) {
-        var fields = this.getFields();
-        var data = {};
-        if( collectionName ) fields = this.getCollectionFields( collectionName );
-
-        _.forEach( fields, function( tmpFieldDef ){
-            var value = tmpFieldDef.getFieldValue();
-            if( tmpFieldDef.optionsValue && value ) {
-                value = value[tmpFieldDef.optionsValue];
-            }
-            data[tmpFieldDef.name] = value;
-        } );
-        return data;
-    }
-
 
     ////////////////////////////////////
     // IMPLEMENTATION DETAIL

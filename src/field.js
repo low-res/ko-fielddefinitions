@@ -18,8 +18,7 @@ define([
 
     function Field( params ) {
         this._processPresetValues(params);
-        this.isValid    = ko.observable(true);
-        this.errors     = ko.observableArray();
+
         if( !this.validation ) this.validation = ""; // make sure every field has a validation property
     }
 
@@ -47,7 +46,7 @@ define([
 
 
     p._handleValueAccessor = function ( sourceObject ) {
-        if(!this.valueAccessor) throw( new Error("Field must have a valueAccessor defined before trying to get value of a source object") );
+        if(!this.valueAccessor) throw( new Error("Field ("+this.name+") must have a valueAccessor defined before trying to get value of a source object") );
 
         var v = _.get(sourceObject, this.valueAccessor);
 
@@ -64,24 +63,16 @@ define([
     }
 
 
-    p.validate = function( validation, sourceObject ) {
-        this.errors.removeAll();
-        var v = validation || this.validation;
-
-        var res = Validator.validate( this.getFieldValue(sourceObject), v );
-        this.isValid( res );
-        this.errors( Validator.getLastValidationErrors() );
-        this.errors.valueHasMutated();
-        return res;
-    }
-
-
     // add a native attribute for every given param
     p._processPresetValues = function ( params ) {
         if( params ) {
             for( var p in params ) {
                 this[p] = params[p];
             }
+        }
+
+        if(!this.name) {
+            console.warn( "The fielddefinition lacks a name property! The name is needed in several conditions, so you better make sure to set one! ", params );
         }
     }
 
