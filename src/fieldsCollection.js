@@ -47,17 +47,14 @@ define([
         if( c ) {
             if(c.fields) {
                 f = _.map(c.fields, function(f){
-                    return _.find( self.fields, ['name', f] );
+                    return self._getFieldObject(f);
                 });
             }
 
             if(c.rows) {
                 _.forEach(c.rows, function (row) {
                     _.forEach(row, function (field) {
-                        var parts = field.split('|');
-                        var fieldname = parts[0];
-                        var width = parts.length > 1 ? parts[1] : 12;
-                        var tmpField =  _.find( self.fields, ['name', fieldname] );
+                        var tmpField =  self._getFieldObject(field);
                         f.push( tmpField );
                     })
                 });
@@ -73,10 +70,12 @@ define([
         if(c) {
             if(c.fields) {
                 _.forEach(c.fields, function ( fieldname ) {
-                    var f = _.find( self.fields, ['name', fieldname] );
-                    var tmpRow = [];
-                    tmpRow.push( {field:f, width:12} )
-                    rows.push( tmpRow );
+                    var rowItem = self._prepareFormrowItem( fieldname );
+                    if(rowItem) {
+                        var tmpRow = [];
+                        tmpRow.push( rowItem );
+                        rows.push( tmpRow );
+                    }
                 });
             }
 
@@ -84,12 +83,8 @@ define([
                 _.forEach(c.rows, function (row) {
                     var tmpRow = [];
                     _.forEach(row, function (field) {
-                        var parts = field.split('|');
-                        var fieldname = parts[0];
-                        var w = parts.length > 1 ? parts[1]=="hidden" ? "hidden" : parseInt(parts[1]) : 12;
-
-                        var tmpField =  _.find( self.fields, ['name', fieldname] );
-                        tmpRow.push( {field:tmpField, width:w} );
+                        var rowItem = self._prepareFormrowItem( field );
+                        if(rowItem) tmpRow.push( rowItem );
                     });
                     rows.push(tmpRow);
                 });
@@ -97,6 +92,8 @@ define([
         }
         return rows;
     }
+
+
 
 
     ////////////////////////////////////
@@ -145,6 +142,43 @@ define([
             }
         } else {
             throw new Error("parameters for adding a field MUST at least have a value for 'name'");
+        }
+    }
+
+    /**
+     * search for the field-object from a given string (fieldname or fieldname|with)
+     * @param fieldString
+     * @return {*}
+     * @private
+     */
+    p._getFieldObject = function ( fieldString ) {
+        var parts = fieldString.split('|');
+        var fieldname = parts[0];
+        var tmpField =  _.find( this.fields, ['name', fieldname] );
+        return tmpField;
+    }
+
+    /**
+     * prepare a valueobject for a given rowitemString.
+     *
+     * @param rowitemString
+     * @return {{field: *, width: *}}
+     * @private
+     */
+    p._prepareFormrowItem = function (rowitemString) {
+        var tmpField    =  this._getFieldObject(rowitemString);
+        if( tmpField ) {
+            var parts       = rowitemString.split('|');
+            var w           = parts.length > 1 ? parts[1]=="hidden" ? "hidden" : parseInt(parts[1]) : 12;
+            return {type:'field', field:tmpField, width:w};
+        } else {
+            var parts = rowitemString.split('|');
+            if( parts[0] == "divider" ) {
+                return {type:'divider', label:parts[1]};
+            } else {
+                console.warn( "unknown item ", rowitemString );
+                return null;
+            }
         }
     }
 
