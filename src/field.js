@@ -45,6 +45,20 @@ define([
     }
 
 
+    /**
+     * format value for export. e.g. CSV
+     * @param sourceObject
+     */
+    p.getFieldValueForExport = function ( sourceObject ) {
+        var v = this.getFormatedFieldValue( sourceObject );
+        if (!_.isUndefined(this.exportFormat)) {
+            v = this.getFieldValue(sourceObject);
+            v = Formater.formatValueToType(v, this.exportFormat);
+        }
+        return v;
+    }
+
+
     p._handleValueAccessor = function ( sourceObject ) {
         if(!this.valueAccessor) throw( new Error("Field ("+this.name+") must have a valueAccessor defined before trying to get value of a source object") );
 
