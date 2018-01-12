@@ -55,6 +55,7 @@ define([
             v = this.getFieldValue(sourceObject);
             v = Formater.formatValueToType(v, this.exportFormat);
         }
+        if(v==null || v=="null" || v==undefined) v="";
         return v;
     }
 
