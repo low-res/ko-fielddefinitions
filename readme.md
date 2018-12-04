@@ -33,7 +33,7 @@ var params = {
 `
 
 
-A field can have several properties. Most important are:
+A field can have any properties you like. But some are fixed. The most important are:
 
 ### Field
 `
@@ -61,6 +61,8 @@ value_accessor: optional name of function (or function-object) that returns the 
 options:        if type is "relation" options hold the options the user can choose from
 
 validation:     function that returns true/false
+
+renderRaw:      boolean. if true the fieldvalue is rendered as rawHTML to e.g. a sortabletable
 
 ### Collection
 
