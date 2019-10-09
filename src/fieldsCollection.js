@@ -169,7 +169,7 @@ define([
         var tmpField    =  this._getFieldObject(rowitemString);
         if( tmpField ) {
             var parts       = rowitemString.split('|');
-            var w           = parts.length > 1 ? parts[1]=="hidden" ? "hidden" : parseInt(parts[1]) : 12;
+            var w           = parts.length > 1 ? parts[1]=="hidden" ? "hidden" : parts[1] : 12;
             return {type:'field', field:tmpField, width:w};
         } else {
             var parts = rowitemString.split('|');
