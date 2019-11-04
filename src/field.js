@@ -39,7 +39,11 @@ define([
     p.getFormatedFieldValue = function ( sourceObject ) {
         var v = this.getFieldValue( sourceObject );
         if( this.outputFormat ) {
-            v = Formater.formatValueToType(v, this.outputFormat);
+            var context = {
+                field: this,
+                source: sourceObject
+            };
+            v = Formater.formatValueToType(v, this.outputFormat, context);
         }
         return v;
     }
@@ -53,7 +57,11 @@ define([
         var v = this.getFormatedFieldValue( sourceObject );
         if (!_.isUndefined(this.exportFormat)) {
             v = this.getFieldValue(sourceObject);
-            v = Formater.formatValueToType(v, this.exportFormat);
+            var context = {
+                field: this,
+                source: sourceObject
+            }
+            v = Formater.formatValueToType(v, this.exportFormat, context);
         }
         if(v==null || v=="null" || v==undefined) v="";
         return v;
