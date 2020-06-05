@@ -48,6 +48,21 @@ define([
         return v;
     }
 
+    /**
+     * if field has options, this method will return
+     * the selected object
+     */
+    p.resolveSelectedOption = function( currentValue ) {
+        var options     = ko.utils.unwrapObservable( this.options );
+        var valueProp   = this.optionsValue;
+
+        var relation = _.find(options, function( tmpItem ){
+            return ko.utils.unwrapObservable(tmpItem[valueProp]) == currentValue;
+        });
+
+        return relation;
+    }
+
 
     /**
      * format value for export. e.g. CSV
