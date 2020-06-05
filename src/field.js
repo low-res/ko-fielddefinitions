@@ -39,11 +39,11 @@ define([
     p.getFormatedFieldValue = function ( sourceObject ) {
         var v = this.getFieldValue( sourceObject );
         if( this.outputFormat ) {
-            var context = {
-                field: this,
-                source: sourceObject
-            };
-            v = Formater.formatValueToType(v, this.outputFormat, context);
+            if( Formater.hasFormat( this.outputFormat ) ) {
+                v = Formater.formatValueToType(v, this.outputFormat);
+            } else if(_.isFunction( this.outputFormat )) {
+                v = this.outputFormat(v, this);
+            }
         }
         return v;
     }
