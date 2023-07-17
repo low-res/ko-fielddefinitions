@@ -1,6 +1,6 @@
 ko-fielddefinitions
 
-formal description for parameters of single form fields. It is intended for use with 
+formal description for parameters of a form fields. It is intended for use with 
 ko-formengine and ko.sortabletable.
 
 ### Definition

@@ -42,7 +42,7 @@ define([
             if( Formater.hasFormat( this.outputFormat ) ) {
                 v = Formater.formatValueToType(v, this.outputFormat);
             } else if(_.isFunction( this.outputFormat )) {
-                v = this.outputFormat(v, this);
+                v = this.outputFormat(v, this, sourceObject);
             }
         }
         return v;
